@@ -7,45 +7,49 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+/**
+ * OpenCV pipeline for detecting our custom signal sleeve. Uses black as position 1,
+ * white as position 2, and yellow as position 3.
+ */
 public class SignalDetectionPipeline extends OpenCvPipeline {
 
     public enum ParkPosition {
         LEFT, MIDDLE, RIGHT
     }
 
-    Rect regionOfInterest = new Rect(new double[] { 0, 0, 0, 0 }); // x, y, w, h
+    /**
+     * The region of interest; a rectangle on the frame from which we are deriving
+     * our position from.
+     */
+    Rect regionOfInterest = new Rect(new double[] { 380, 230, 100, 200 }); // x, y, w, h
 
-    private Mat region;
-
+    /**
+     * The current position guessed based on the camera input.
+     */
     public volatile ParkPosition position;
-
-
-    @Override
-    public void init(Mat firstFrame) {
-        region = firstFrame.submat(regionOfInterest);
-    }
+    /**
+     * A Scalar color of the average the pixels in the region of interest.
+     */
+    public volatile Scalar average;
 
     @Override
     public Mat processFrame(Mat input) {
-        Scalar average = Core.mean(region);
+        average = Core.mean(input);
 
         Imgproc.rectangle(input, regionOfInterest, invertColor(average), 5);
 
-        int greatest = 0;
-        if (average.val[1] > average.val[0]) greatest = 1;
-        if (average.val[2] > average.val[greatest]) greatest = 2;
-
-        if (greatest == 0) position = ParkPosition.LEFT;
-        if (greatest == 1) position = ParkPosition.MIDDLE;
-        if (greatest == 2) position = ParkPosition.RIGHT;
-
-        Scalar detected = Scalar.all(0);
-        detected.val[greatest] = 255;
-        Imgproc.rectangle(input, regionOfInterest, detected, 2);
+        position = ParkPosition.MIDDLE;
+        if (average.val[0] + average.val[1] + average.val[2] < 550) position = ParkPosition.LEFT;
+        if (average.val[0] - average.val[2] > 35 && average.val[1] - average.val[2] > 35) position = ParkPosition.RIGHT;
 
         return input;
     }
 
+    /**
+     * Takes a Scalar color and inverts it. So {@code 255 - val} for each color.
+     * @param color The color to be inverted.
+     * @return The inverted color.
+     */
     public static Scalar invertColor(Scalar color) {
         return new Scalar(255 - color.val[0], 255 - color.val[1], 255 - color.val[2], color.val[3]);
     }

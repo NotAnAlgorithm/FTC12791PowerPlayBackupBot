@@ -8,21 +8,21 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Deployment {
 
     public HardwareMap hardwareMap;
-    public DcMotorEx vertical;
+    public DcMotorEx slides;
     public Servo claw1, claw2;
 
     private Height height;
     private int verticalTarget;
-    private double horizontalTarget;
+    private Claw claw;
 
     public Deployment(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
 
-        vertical = hardwareMap.get(DcMotorEx.class, "vertical");
-        vertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        vertical.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        vertical.setTargetPosition(0);
-        vertical.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slides = hardwareMap.get(DcMotorEx.class, "slides");
+        slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slides.setTargetPosition(0);
+        slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         claw1 = hardwareMap.get(Servo.class, "claw1");
         claw2 = hardwareMap.get(Servo.class, "claw2");
@@ -38,14 +38,26 @@ public class Deployment {
         // linear and straight forward. just need to do pid
     }
 
-    public void setHorizontalTarget(double target) {
-        horizontalTarget = target;
-        // need to calculate crank slider for distance to servo position
-        // also will be multiple possible values due to two separate linkages
+    public void grabCone() {
+        claw = Claw.CLOSE;
+    }
+
+    public void releaseCone() {
+        claw = Claw.OPEN;
     }
 
     public void update() {
-        vertical.setTargetPosition(verticalTarget);
+        slides.setTargetPosition(verticalTarget);
+
+        switch (claw) {
+            case OPEN:
+                claw1.setPosition(0);
+                claw2.setPosition(0);
+                break;
+            case CLOSE:
+                claw1.setPosition(1);
+                claw2.setPosition(1);
+        }
     }
 
     public enum Height {
@@ -53,5 +65,10 @@ public class Deployment {
         LOW,
         MIDDLE,
         HIGH
+    }
+
+    public enum Claw {
+        OPEN,
+        CLOSE
     }
 }

@@ -12,8 +12,8 @@ public class BNO055IMUUtil {
      * Error for attempting an illegal remapping (lhs or multiple same axes)
      */
     public static class InvalidAxisRemapException extends RuntimeException {
-        public InvalidAxisRemapException(String detailMessage) {
-            super(detailMessage);
+        public InvalidAxisRemapException(String message) {
+            super(message);
         }
     }
 
