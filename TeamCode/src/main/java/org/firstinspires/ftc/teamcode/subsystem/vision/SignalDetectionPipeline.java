@@ -22,6 +22,7 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
      * our position from.
      */
     Rect regionOfInterest = new Rect(new double[] { 380, 230, 100, 200 }); // x, y, w, h
+    private Mat region;
 
     /**
      * The current position guessed based on the camera input.
@@ -33,8 +34,13 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
     public volatile Scalar average;
 
     @Override
+    public void init(Mat mat) {
+        region = mat.submat(regionOfInterest);
+    }
+
+    @Override
     public Mat processFrame(Mat input) {
-        average = Core.mean(input);
+        average = Core.mean(region);
 
         Imgproc.rectangle(input, regionOfInterest, invertColor(average), 5);
 

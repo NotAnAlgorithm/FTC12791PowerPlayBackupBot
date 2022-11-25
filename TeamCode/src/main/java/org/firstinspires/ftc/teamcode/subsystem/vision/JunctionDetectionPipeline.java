@@ -9,6 +9,7 @@ public class JunctionDetectionPipeline extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        return null;
+
+        return input;
     }
 }

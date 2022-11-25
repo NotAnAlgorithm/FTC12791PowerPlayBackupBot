@@ -80,7 +80,7 @@ public class Auton extends LinearOpMode {
         );
 
         while (opModeInInit()) {
-            sleep(100);
+            sleep(250);
 //            claw1.setPosition(Constants.CLAW1_CLOSE);
 //            claw2.setPosition(Constants.CLAW2_CLOSE);
             parkPosition = pipeline.position;
