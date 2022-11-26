@@ -49,11 +49,11 @@ public class MultiMotor implements DcMotorEx {
     }
 
     public boolean[] isMotorEnableds() {
-        boolean[] names = new boolean[motors.length];
+        boolean[] enableds = new boolean[motors.length];
         for (int i = 0; i < motors.length; i ++) {
-            names[i] = motors[i].isMotorEnabled();
+            enableds[i] = motors[i].isMotorEnabled();
         }
-        return names;
+        return enableds;
     }
 
     @Override
@@ -80,11 +80,11 @@ public class MultiMotor implements DcMotorEx {
     }
 
     public double[] getVelocities() {
-        double[] names = new double[motors.length];
+        double[] velocities = new double[motors.length];
         for (int i = 0; i < motors.length; i ++) {
-            names[i] = motors[i].getVelocity();
+            velocities[i] = motors[i].getVelocity();
         }
-        return names;
+        return velocities;
     }
 
     @Override
@@ -354,7 +354,7 @@ public class MultiMotor implements DcMotorEx {
         for (DcMotorEx motor: motors) {
             avg += motor.getCurrentPosition();
         }
-        return avg / 3;
+        return avg / motors.length;
     }
 
     public int[] getCurrentPositions() {

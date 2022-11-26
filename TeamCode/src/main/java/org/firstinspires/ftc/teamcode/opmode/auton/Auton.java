@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.util.AxisDirection;
 import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
-@Autonomous
+@Autonomous(preselectTeleOp = "BackupTeleop")
 public class Auton extends LinearOpMode {
 
     final double ENCODER_ADJUST = .61 / .53;
