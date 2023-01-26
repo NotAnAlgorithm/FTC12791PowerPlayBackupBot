@@ -101,6 +101,9 @@ public class BackupTeleop extends LinearOpMode{
             } else if (gamepad1.dpad_up) {
                 slidesTarget = Constants.SLIDES_HIGH;
                 slidesPower = .7;
+            } else if (gamepad1.left_bumper) {
+                slidesTarget = Constants.SLIDES_GROUND;
+                slidesPower = .5;
             }
 
             slidesTarget += gamepad1.right_trigger * 1.5 - gamepad1.left_trigger * 1.5;

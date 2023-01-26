@@ -51,12 +51,13 @@ public class Deployment {
 
         switch (claw) {
             case OPEN:
-                claw1.setPosition(0);
-                claw2.setPosition(0);
+                claw1.setPosition(Constants.CLAW1_OPEN);
+                claw2.setPosition(Constants.CLAW2_OPEN);
                 break;
             case CLOSE:
-                claw1.setPosition(1);
-                claw2.setPosition(1);
+                claw1.setPosition(Constants.CLAW1_CLOSE);
+                claw2.setPosition(Constants.CLAW2_CLOSE);
+                break;
         }
     }
 

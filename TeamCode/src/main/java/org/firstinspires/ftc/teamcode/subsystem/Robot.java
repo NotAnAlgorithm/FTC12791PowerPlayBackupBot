@@ -26,7 +26,7 @@ public class Robot {
 
     public HardwareMap hardwareMap;
     public Telemetry telemetry;
-    public Mecanum drive;
+    public Mecanum2 drive;
     public Deployment deployment;
     public BNO055IMU imu;
     public VoltageSensor voltageSensor;
@@ -42,8 +42,8 @@ public class Robot {
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
-        drive = new Mecanum(this, hardwareMap);
-        deployment = new Deployment(hardwareMap);
+        drive = new Mecanum2(hardwareMap);
+//        deployment = new Deployment(hardwareMap);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
@@ -61,11 +61,11 @@ public class Robot {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
-        for (DcMotorEx motor : new DcMotorEx[] { drive.frontLeft, drive.frontRight, drive.backLeft, drive.backRight, deployment.slides}) {
-            MotorConfigurationType configuration = motor.getMotorType().clone();
-            configuration.setAchieveableMaxRPMFraction(1.0);
-            motor.setMotorType(configuration);
-        }
+//        for (DcMotorEx motor : new DcMotorEx[] { drive.frontLeft, drive.frontRight, drive.backLeft, drive.backRight, deployment.slides}) {
+//            MotorConfigurationType configuration = motor.getMotorType().clone();
+//            configuration.setAchieveableMaxRPMFraction(1.0);
+//            motor.setMotorType(configuration);
+//        }
 
         dashboard = FtcDashboard.getInstance();
         this.telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
@@ -73,6 +73,8 @@ public class Robot {
         this.telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);
         this.telemetry.update();
         this.telemetry.clearAll();
+
+        update();
     }
 
     public void initWebcam(OpenCvPipeline pipeline) {
@@ -139,9 +141,7 @@ public class Robot {
 //        imu.getAcceleration();
         clearCache();
         drive.update();
-        deployment.update();
-        telemetry.update();drive.update();
-        deployment.update();
+//        deployment.update();
         telemetry.update();
     }
 }

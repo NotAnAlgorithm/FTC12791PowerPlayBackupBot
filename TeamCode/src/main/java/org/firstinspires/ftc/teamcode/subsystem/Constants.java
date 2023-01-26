@@ -72,6 +72,7 @@ public abstract class Constants {
 
 
     public static int SLIDES_DOWN = 0;
+    public static int SLIDES_GROUND = 70;
     public static int SLIDES_LOW = 540;
     public static int SLIDES_MID = 950;
     public static int SLIDES_HIGH = 1300;

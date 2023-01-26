@@ -114,14 +114,14 @@ public class Auton extends LinearOpMode {
                 switch (parkPosition) {
                     case LEFT:
                         drive.setWeightedDrivePower(new Pose2d(0, -.5, 0));
-                        if (Math.abs(encoder + .7) < .05) state = State.DONE;
+                        if (Math.abs(encoder + .75) < .05) state = State.DONE;
                         break;
                     case MIDDLE:
                         state = State.DONE;
                         break;
                     case RIGHT:
                         drive.setWeightedDrivePower(new Pose2d(0, .5, 0));
-                        if (Math.abs(encoder - .75) < .05) state = State.DONE;
+                        if (Math.abs(encoder - .79) < .05) state = State.DONE;
                         break;
                 }
             } else if (state == State.DONE) {

@@ -38,4 +38,8 @@ public class Webcam {
             }
         });
     }
+
+    public void close() {
+        cvCamera.closeCameraDeviceAsync(() -> {});
+    }
 }

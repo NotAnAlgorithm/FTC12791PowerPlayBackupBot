@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 
-@Disabled
+//@Disabled
 @TeleOp
 public class TestTeleop extends LinearOpMode {
     @Override
@@ -17,17 +17,18 @@ public class TestTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            Pose2d poseEstimate = robot.drive.getPoseEstimate();
+//            Pose2d poseEstimate = robot.drive.getPoseEstimate();
 
-            robot.drive.driveFieldCentric(new Pose2d(
+            robot.drive.setWeightedDrivePower(new Pose2d(
                     cube(gamepad1.left_stick_x),
                     cube(-gamepad1.left_stick_y),
                     cube(gamepad1.right_stick_x)
             ));
 
-            telemetry.addData("x", poseEstimate.getX());
-            telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
+//            telemetry.addData("x", poseEstimate.getX());
+//            telemetry.addData("y", poseEstimate.getY());
+//            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("heading", robot.getHeading());
             robot.update();
         }
     }
