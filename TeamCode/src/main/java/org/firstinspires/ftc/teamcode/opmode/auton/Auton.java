@@ -21,8 +21,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.subsystem.Constants;
-import org.firstinspires.ftc.teamcode.subsystem.SimpleIMUIntegrator;
 import org.firstinspires.ftc.teamcode.subsystem.Mecanum2;
+import org.firstinspires.ftc.teamcode.subsystem.SimpleIMUIntegrator;
 import org.firstinspires.ftc.teamcode.subsystem.Webcam;
 import org.firstinspires.ftc.teamcode.subsystem.vision.SignalDetectionPipeline;
 import org.firstinspires.ftc.teamcode.util.AxisDirection;
@@ -126,6 +126,8 @@ public class Auton extends LinearOpMode {
                 }
             } else if (state == State.DONE) {
                 drive.setWeightedDrivePower(new Pose2d());
+                claw1.setPosition(Constants.CLAW1_OPEN);
+                claw2.setPosition(Constants.CLAW2_OPEN);
             }
             
             telemetry.addData("state", state);

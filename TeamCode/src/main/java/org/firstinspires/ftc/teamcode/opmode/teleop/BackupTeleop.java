@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -71,7 +70,7 @@ public class BackupTeleop extends LinearOpMode{
         {
             heading = 0; //-imu.getAngularOrientation().firstAngle;
             forward = -cube(gamepad1.left_stick_y) * .75;
-            turn = cube(gamepad1.right_stick_x) * .5;
+            turn = cube(gamepad1.right_stick_x) * .80;
             strafe = cube(gamepad1.left_stick_x) * .75;
             if (gamepad1.right_bumper || slidesTarget > 500) {
                 forward *= .35;

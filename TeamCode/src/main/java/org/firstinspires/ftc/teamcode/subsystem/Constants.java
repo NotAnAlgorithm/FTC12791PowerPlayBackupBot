@@ -73,11 +73,11 @@ public abstract class Constants {
 
     public static int SLIDES_DOWN = 0;
     public static int SLIDES_GROUND = 70;
-    public static int SLIDES_LOW = 540;
-    public static int SLIDES_MID = 950;
-    public static int SLIDES_HIGH = 1300;
-    public static double CLAW1_CLOSE = .60;
-    public static double CLAW2_CLOSE = .10;
+    public static int SLIDES_LOW = 530;
+    public static int SLIDES_MID = 935;
+    public static int SLIDES_HIGH = 1290;
+    public static double CLAW1_CLOSE = .62;
+    public static double CLAW2_CLOSE = .12;
     public static double CLAW1_OPEN = .28;
     public static double CLAW2_OPEN = .42;
 

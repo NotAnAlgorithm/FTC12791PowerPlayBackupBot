@@ -45,7 +45,7 @@ public class SignalDetectionPipeline extends OpenCvPipeline {
         Imgproc.rectangle(input, regionOfInterest, invertColor(average), 5);
 
         position = ParkPosition.MIDDLE;
-        if (average.val[0] + average.val[1] + average.val[2] < 550) position = ParkPosition.LEFT;
+        if (average.val[0] + average.val[1] + average.val[2] < 500) position = ParkPosition.LEFT;
         if (average.val[0] - average.val[2] > 35 && average.val[1] - average.val[2] > 35) position = ParkPosition.RIGHT;
 
         return input;
