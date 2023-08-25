@@ -12,39 +12,40 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.gamepad.JustPressed;
 import org.firstinspires.ftc.teamcode.subsystem.Constants;
 
 //@Disabled
 @TeleOp
-public class BackupTeleop extends LinearOpMode{
-    private DcMotor leftFront;
-    private DcMotor leftBack;
-    private DcMotor rightFront;
-    private DcMotor rightBack;
+public class MASTeleop extends LinearOpMode{
+    private DcMotor frontLeft;
+    private DcMotor backLeft;
+    private DcMotor frontRight;
+    private DcMotor backRight;
     private DcMotorEx slides;
-    private Servo claw1;
-    private Servo claw2;
+    private Servo claw;
+    private Servo wrist;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+        frontLeft = hardwareMap.get(DcMotor.class, "fl");
+        frontRight = hardwareMap.get(DcMotor.class, "fr");
+        backLeft = hardwareMap.get(DcMotor.class, "bl");
+        backRight = hardwareMap.get(DcMotor.class, "br");
         slides = hardwareMap.get(DcMotorEx.class, "slides");
-        claw1 = hardwareMap.get(Servo.class, "claw1");
-        claw2 = hardwareMap.get(Servo.class, "claw2");
+        claw = hardwareMap.get(Servo.class, "claw");
+        wrist = hardwareMap.get(Servo.class, "wrist");
 
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+//        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+//        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -57,11 +58,13 @@ public class BackupTeleop extends LinearOpMode{
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
 
+        JustPressed justPressed1 = new JustPressed(gamepad1);
+
         int slidesTarget = Constants.SLIDES_DOWN;
         double slidesPower = 0;
 
-        boolean aPressed = false;
         boolean clawClosed = false;
+        boolean wristForward = true;
 
         double forward = 0;
         double turn = 0;
@@ -87,10 +90,10 @@ public class BackupTeleop extends LinearOpMode{
 
             double denominator = Math.max(Math.abs(forward) + Math.abs(turn) + Math.abs(strafe), 1);
 
-            leftFront.setPower((rotY + rotX + turn) / denominator);
-            rightFront.setPower((rotY - rotX - turn) / denominator);
-            leftBack.setPower((rotY - rotX + turn) / denominator);
-            rightBack.setPower((rotY + rotX - turn) / denominator);
+            frontLeft.setPower((rotY + rotX + turn) / denominator);
+            frontRight.setPower((rotY - rotX - turn) / denominator);
+            backLeft.setPower((rotY - rotX + turn) / denominator);
+            backRight.setPower((rotY + rotX - turn) / denominator);
 
             if (gamepad1.dpad_down) {
                 slidesTarget = Constants.SLIDES_DOWN;
@@ -115,18 +118,11 @@ public class BackupTeleop extends LinearOpMode{
                 slidesPower = .2;
             }
 
-            if (gamepad1.a && !aPressed) {
-                clawClosed = !clawClosed;
-            }
-            aPressed = gamepad1.a;
+            if (justPressed1.a()) clawClosed = !clawClosed;
+            if (justPressed1.b()) wristForward = !wristForward;
 
-            if (clawClosed) {
-                claw1.setPosition(Constants.CLAW1_CLOSE);
-                claw2.setPosition(Constants.CLAW2_CLOSE);
-            } else {
-                claw1.setPosition(Constants.CLAW1_OPEN);
-                claw2.setPosition(Constants.CLAW2_OPEN);
-            }
+            claw.setPosition(clawClosed ? Constants.CLAW_CLOSE : Constants.CLAW_OPEN);
+            wrist.setPosition(wristForward ? Constants.WRIST_FORWARD : Constants.WRIST_BACKWARD);
 
             slides.setTargetPosition(slidesTarget);
             slides.setPower(slidesPower);
@@ -136,8 +132,10 @@ public class BackupTeleop extends LinearOpMode{
             telemetry.addData("slides position", slides.getCurrentPosition());
             telemetry.addData("slides power", slidesPower);
             telemetry.addData("claw state", clawClosed ? "closed" : "open");
+            telemetry.addData("wrist state", wristForward ? "forward" : "backward");
             telemetry.addData("slides current", "%f amps", slides.getCurrent(CurrentUnit.AMPS));
             telemetry.update();
+            justPressed1.update();
         }
     }
 
