@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.subsystem.Constants;
+import org.firstinspires.ftc.teamcode.util.TelemetryUtil;
 
 //@Disabled
 @TeleOp
@@ -28,7 +27,7 @@ public class BackupTeleop extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = TelemetryUtil.initTelemetry(telemetry);
 
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");

@@ -72,17 +72,17 @@ public abstract class Constants {
 
 
     public static int SLIDES_DOWN = 0;
-    public static int SLIDES_GROUND = 70;
-    public static int SLIDES_LOW = 530;
-    public static int SLIDES_MID = 935;
-    public static int SLIDES_HIGH = 1290;
+    public static int SLIDES_GROUND = 350;
+    public static int SLIDES_LOW = 1820;
+    public static int SLIDES_MID = 3350;
+    public static int SLIDES_HIGH = 4880;
     @Deprecated public static double CLAW1_CLOSE = .62;
     @Deprecated public static double CLAW2_CLOSE = .12;
     @Deprecated public static double CLAW1_OPEN = .28;
     @Deprecated public static double CLAW2_OPEN = .42;
-    public static double CLAW_OPEN = -1;
-    public static double CLAW_CLOSE = -1;
-    public static double WRIST_FORWARD = -1;
-    public static double WRIST_BACKWARD = -1;
+    public static double CLAW_OPEN = .10;
+    public static double CLAW_CLOSE = .25;
+    public static double WRIST_FORWARD = .32;
+    public static double WRIST_BACKWARD = .98;
 
 }

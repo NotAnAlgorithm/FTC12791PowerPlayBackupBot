@@ -23,6 +23,7 @@ public class JustPressed {
                 justPressed.add(button);
             }
         };
+        update();
     }
 
     public JustPressed(GamepadListenerEx gamepadListener) {
